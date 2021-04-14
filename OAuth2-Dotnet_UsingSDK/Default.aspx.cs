@@ -62,6 +62,10 @@ namespace OAuth2_Dotnet_UsingSDK
         protected async void Page_Load(object sender, EventArgs e)
         {
             AsyncMode = true;
+
+            if (Request.QueryString["signoff"] == "Y")
+                dictionary.Clear();
+
             if (!dictionary.ContainsKey("accessToken"))
             {
                 if (Request.QueryString.Count > 0)
@@ -484,6 +488,8 @@ namespace OAuth2_Dotnet_UsingSDK
                     LoadProfitReality();
 
                     LoadRevenueGrowth();
+                    LoadExpenseGrowth();
+                    LoadProfitGrowth();
 
                     this.metrics.Visible = true;
                 }
@@ -611,38 +617,74 @@ namespace OAuth2_Dotnet_UsingSDK
         }
 
         private string[] _recurringSalesItems = new string[] { "Gardening", "Trimming", "Services" };
+        private string[] _growthSalesItem = new string[] { "Concrete" };
 
         private void LoadPredictableRevenue()
         {
-            string[] labels = new string[] { "Recurring", "Non-Recurring" };
+            string[] labels = new string[] { "Recurring", "Non-Recurring", "Growth" };
 
             decimal recurringrev = _items.Where(x => x.AcctType == "PRODUCT" && _recurringSalesItems.Contains(x.Acct)).Sum(s => s.Value);
             decimal nonrecurringrev = _items.Where(x => x.AcctType == "PRODUCT" && !_recurringSalesItems.Contains(x.Acct)).Sum(s => s.Value);
-            decimal[] vals = new decimal[] { recurringrev, nonrecurringrev };
+            decimal growthrev = _items.Where(x => x.AcctType == "PRODUCT" && _growthSalesItem.Contains(x.Acct)).Sum(s => s.Value);
+
+            decimal[] vals = new decimal[] { recurringrev, nonrecurringrev, growthrev };
 
             chartPredictableRevenue.Series[0].Points.DataBindXY(labels, vals);
 
+            chartPredictableRevenue.Series[0].PostBackValue = "#SERIESNAME;#INDEX";
             chartPredictableRevenue.Series[0].BorderWidth = 10;
             chartPredictableRevenue.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Pie;
         }
 
         private void LoadProfitQuilt()
         {
-            string[] labels = new string[] { "Expenses", "Revenue" };
+            string[] labels = new string[] { "Expenses", "Revenue", "Profit" };
 
             decimal rev = _items.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
             decimal expense = _items.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
-            decimal[] vals = new decimal[] { expense, rev };
+            decimal profit = rev - expense;
+
+            decimal[] vals = new decimal[] { expense, rev, profit };
 
             chartProfitQuilt.Series[0].Points.DataBindXY(labels, vals);
 
             chartProfitQuilt.Series[0].BorderWidth = 10;
+            chartRevenueGrowth.Series[0].LabelFormat = "{c}";
+            chartRevenueGrowth.Series[0].IsVisibleInLegend = false;
             chartProfitQuilt.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Bar;
         }
 
         private void LoadProfitReality()
         {
 
+
+            decimal chartval1 = _items.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+            decimal chartval2 = _prevperioditems.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+
+            decimal[] valsx = new decimal[] { 10, 15 };
+            decimal[] valsy = new decimal[] { -2, 8 };
+
+            chartProfitReality.Series[0].Points.DataBindXY(valsx, valsy);
+            chartProfitReality.ChartAreas[0].AxisX.Minimum = -25;
+            chartProfitReality.ChartAreas[0].AxisX.Maximum = 25;
+            chartProfitReality.ChartAreas[0].AxisY.Minimum = -25;
+            chartProfitReality.ChartAreas[0].AxisY.Maximum = 25;
+
+            chartProfitReality.ChartAreas[0].AxisY.LineWidth =
+                chartProfitReality.ChartAreas[0].AxisX.LineWidth = 0;
+
+            chartProfitReality.ChartAreas[0].AxisY.MajorGrid.Enabled =
+               chartProfitReality.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+
+            chartProfitReality.ChartAreas[0].AxisY.MajorTickMark.Enabled =
+               chartProfitReality.ChartAreas[0].AxisX.MajorTickMark.Enabled = false;
+
+            //chartProfitReality.ChartAreas[0].BackImage = "../Images/linescross.png";
+
+            //chartRevenueGrowth.Series[0].Name = "Revenue per day";
+            chartProfitReality.Series[0].BorderWidth = 1;
+            chartProfitReality.Series[0].IsVisibleInLegend = false;
+            chartProfitReality.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.ra;
         }
 
         private void LoadRevenueGrowth()
@@ -672,10 +714,90 @@ namespace OAuth2_Dotnet_UsingSDK
             decimal[] vals = new decimal[] { chartval1/Convert.ToDecimal(numdays), chartval2 / Convert.ToDecimal(numdays) };
 
             chartRevenueGrowth.Series[0].Points.DataBindXY(labels, vals);
+            chartRevenueGrowth.Series[0].Name = "Revenue per day";
             chartRevenueGrowth.Series[0].BorderWidth = 10;
+            chartRevenueGrowth.Series[0].IsVisibleInLegend = false;
             chartRevenueGrowth.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Column;
         }
 
+        private void LoadExpenseGrowth()
+        {
+            string label1 = "";
+            string label2 = "";
+
+            switch (cbgrowthcompare.SelectedValue)
+            {
+                case "LastYear":
+                    label1 = "This Year";
+                    label2 = "Last Year";
+                    break;
+                case "LastMonth":
+                    label1 = "This Month";
+                    label2 = "Last Month";
+                    break;
+            }
+
+            string[] labels = new string[] { label1, label2 };
+
+            var numdays = (Convert.ToDateTime(dtend.Text) - Convert.ToDateTime(dtstart.Text)).TotalDays;
+
+            decimal chartval1 = _items.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+            decimal chartval2 = _prevperioditems.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+
+            decimal[] vals = new decimal[] { chartval1 / Convert.ToDecimal(numdays), chartval2 / Convert.ToDecimal(numdays) };
+
+            chartExpenseGrowth.Series[0].Points.DataBindXY(labels, vals);
+            chartExpenseGrowth.Series[0].Name = "Expense per day";
+            chartExpenseGrowth.Series[0].BorderWidth = 10;
+            chartExpenseGrowth.Series[0].IsVisibleInLegend = false;
+            chartExpenseGrowth.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Column;
+        }
+
+
+        private void LoadProfitGrowth()
+        {
+            string label1 = "";
+            string label2 = "";
+
+            switch (cbgrowthcompare.SelectedValue)
+            {
+                case "LastYear":
+                    label1 = "This Year";
+                    label2 = "Last Year";
+                    break;
+                case "LastMonth":
+                    label1 = "This Month";
+                    label2 = "Last Month";
+                    break;
+            }
+
+            string[] labels = new string[] { label1, label2 };
+
+            var numdays = (Convert.ToDateTime(dtend.Text) - Convert.ToDateTime(dtstart.Text)).TotalDays;
+
+            decimal chartval1rev = _items.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+            decimal chartval1exp = _items.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+            decimal chartval2rev = _prevperioditems.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+            decimal chartval2exp = _prevperioditems.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+
+            var profit1 = chartval1rev - chartval1exp;
+            var profit2 = chartval2rev - chartval2exp;
+
+            decimal[] vals = new decimal[] { profit1 / Convert.ToDecimal(numdays), profit2 / Convert.ToDecimal(numdays) };
+
+            chartProfitGrowth.Series[0].Points.DataBindXY(labels, vals);
+            chartProfitGrowth.Series[0].Name = "EBIT per day";
+            chartProfitGrowth.Series[0].BorderWidth = 10;
+            chartProfitGrowth.Series[0].IsVisibleInLegend = false;
+            chartProfitGrowth.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Column;
+        }
+
+
+
+        protected void chartPredictableRevenue_Click(object sender, System.Web.UI.WebControls.ImageMapEventArgs e)
+        {
+            int a = 1;
+        }
     }
 
     /// <summary>

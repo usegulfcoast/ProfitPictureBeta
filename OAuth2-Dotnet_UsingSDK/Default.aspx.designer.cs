@@ -159,6 +159,15 @@ namespace OAuth2_Dotnet_UsingSDK
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartProfitQuilt;
 
         /// <summary>
+        /// chartProfitReality control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.DataVisualization.Charting.Chart chartProfitReality;
+
+        /// <summary>
         /// chartRevenueGrowth control.
         /// </summary>
         /// <remarks>
@@ -166,6 +175,24 @@ namespace OAuth2_Dotnet_UsingSDK
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartRevenueGrowth;
+
+        /// <summary>
+        /// chartExpenseGrowth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.DataVisualization.Charting.Chart chartExpenseGrowth;
+
+        /// <summary>
+        /// chartProfitGrowth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.DataVisualization.Charting.Chart chartProfitGrowth;
 
         /// <summary>
         /// dlitems control.

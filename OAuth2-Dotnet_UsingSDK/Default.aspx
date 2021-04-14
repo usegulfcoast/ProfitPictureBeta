@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="OAuth2_Dotnet_UsingSDK.Default" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="OAuth2_Dotnet_UsingSDK.Default"   %>
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"  
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>  
 
@@ -107,7 +107,7 @@
                     <tr>
                         <td>
                             <h3>Predictable Revenue</h3>
-                            <asp:Chart ID="chartPredictableRevenue" runat="server"  
+                            <asp:Chart OnClick="chartPredictableRevenue_Click"  ID="chartPredictableRevenue" runat="server"  
                                 BorderlineWidth="0" Height="360px" Palette="SeaGreen"
                                 Width="380px" BorderlineColor="64, 0, 64"
                                 >  
@@ -149,6 +149,24 @@
                         </td>
                         <td>
                             <h3>Profit Reality</h3>
+                             <asp:Chart ID="chartProfitReality" runat="server"  
+                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
+                                Width="380px" BorderlineColor="64, 0, 64"
+                                >  
+                                <Titles>  
+                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                </Titles>  
+                                <Legends>  
+                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                        LegendStyle="Row" />  
+                                </Legends>  
+                                <Series>  
+                                    <asp:Series Name="Default" />  
+                                </Series>  
+                                <ChartAreas>  
+                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                </ChartAreas>  
+                            </asp:Chart> 
                         </td>
                     </tr>
                     <tr>
@@ -175,9 +193,45 @@
                         </td>
                         <td>
                             <h3>Expense Growth</h3>
+                            <asp:Chart ID="chartExpenseGrowth" runat="server"  
+                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
+                                Width="380px" BorderlineColor="64, 0, 64"
+                                >  
+                                <Titles>  
+                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                </Titles>  
+                                <Legends>  
+                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                        LegendStyle="Row" />  
+                                </Legends>  
+                                <Series>  
+                                    <asp:Series Name="Default" />  
+                                </Series>  
+                                <ChartAreas>  
+                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                </ChartAreas>  
+                            </asp:Chart> 
                         </td>
                         <td>
                             <h3>EBIT Growth</h3>
+                            <asp:Chart ID="chartProfitGrowth" runat="server"  
+                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
+                                Width="380px" BorderlineColor="64, 0, 64"
+                                >  
+                                <Titles>  
+                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                </Titles>  
+                                <Legends>  
+                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                        LegendStyle="Row" />  
+                                </Legends>  
+                                <Series>  
+                                    <asp:Series Name="Default" />  
+                                </Series>  
+                                <ChartAreas>  
+                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                </ChartAreas>  
+                            </asp:Chart> 
                         </td>
                     </tr>
                 </table>
