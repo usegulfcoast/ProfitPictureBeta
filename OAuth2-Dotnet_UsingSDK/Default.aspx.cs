@@ -647,7 +647,8 @@ namespace OAuth2_Dotnet_UsingSDK
             decimal[] vals = new decimal[] { expense, rev, profit };
 
             chartProfitQuilt.Series[0].Points.DataBindXY(labels, vals);
-
+            chartProfitQuilt.Series[0].Points[0].Color = System.Drawing.Color.Red;
+            chartProfitQuilt.Series[0].Points[2].Color = System.Drawing.Color.Black;
             chartProfitQuilt.Series[0].BorderWidth = 10;
             chartRevenueGrowth.Series[0].LabelFormat = "{c}";
             chartRevenueGrowth.Series[0].IsVisibleInLegend = false;
@@ -656,35 +657,10 @@ namespace OAuth2_Dotnet_UsingSDK
 
         private void LoadProfitReality()
         {
-
-
-            decimal chartval1 = _items.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
-            decimal chartval2 = _prevperioditems.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
-
-            decimal[] valsx = new decimal[] { 10, 15 };
-            decimal[] valsy = new decimal[] { -2, 8 };
-
-            chartProfitReality.Series[0].Points.DataBindXY(valsx, valsy);
-            chartProfitReality.ChartAreas[0].AxisX.Minimum = -25;
-            chartProfitReality.ChartAreas[0].AxisX.Maximum = 25;
-            chartProfitReality.ChartAreas[0].AxisY.Minimum = -25;
-            chartProfitReality.ChartAreas[0].AxisY.Maximum = 25;
-
-            chartProfitReality.ChartAreas[0].AxisY.LineWidth =
-                chartProfitReality.ChartAreas[0].AxisX.LineWidth = 0;
-
-            chartProfitReality.ChartAreas[0].AxisY.MajorGrid.Enabled =
-               chartProfitReality.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-
-            chartProfitReality.ChartAreas[0].AxisY.MajorTickMark.Enabled =
-               chartProfitReality.ChartAreas[0].AxisX.MajorTickMark.Enabled = false;
-
-            //chartProfitReality.ChartAreas[0].BackImage = "../Images/linescross.png";
-
-            //chartRevenueGrowth.Series[0].Name = "Revenue per day";
-            chartProfitReality.Series[0].BorderWidth = 1;
-            chartProfitReality.Series[0].IsVisibleInLegend = false;
-            chartProfitReality.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.ra;
+            int up12 = 4;
+            int up3 = 9;
+            // TODO:  Get 3 and 12 month profit
+            this.imgprofitreality.ImageUrl = $"ProfitReality.aspx?up12={up12}&up3={up3}";
         }
 
         private void LoadRevenueGrowth()
@@ -747,6 +723,7 @@ namespace OAuth2_Dotnet_UsingSDK
             decimal[] vals = new decimal[] { chartval1 / Convert.ToDecimal(numdays), chartval2 / Convert.ToDecimal(numdays) };
 
             chartExpenseGrowth.Series[0].Points.DataBindXY(labels, vals);
+            chartExpenseGrowth.Series[0].Color = System.Drawing.Color.Red;
             chartExpenseGrowth.Series[0].Name = "Expense per day";
             chartExpenseGrowth.Series[0].BorderWidth = 10;
             chartExpenseGrowth.Series[0].IsVisibleInLegend = false;
@@ -787,6 +764,7 @@ namespace OAuth2_Dotnet_UsingSDK
 
             chartProfitGrowth.Series[0].Points.DataBindXY(labels, vals);
             chartProfitGrowth.Series[0].Name = "EBIT per day";
+            chartProfitGrowth.Series[0].Color = System.Drawing.Color.Black;
             chartProfitGrowth.Series[0].BorderWidth = 10;
             chartProfitGrowth.Series[0].IsVisibleInLegend = false;
             chartProfitGrowth.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Column;

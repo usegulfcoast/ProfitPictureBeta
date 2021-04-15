@@ -119,7 +119,7 @@
                                         LegendStyle="Row" />  
                                 </Legends>  
                                 <Series>  
-                                    <asp:Series Name="Default" />  
+                                    <asp:Series Name="Default" IsVisibleInLegend="false" />  
                                 </Series>  
                                 <ChartAreas>  
                                     <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
@@ -129,7 +129,7 @@
                         <td>
                              <h3>Profit Quilt</h3>
                              <asp:Chart ID="chartProfitQuilt" runat="server"  
-                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
+                                BorderlineWidth="1" Height="360px" Palette="SeaGreen"
                                 Width="380px" BorderlineColor="64, 0, 64"
                                 >  
                                 <Titles>  
@@ -140,33 +140,16 @@
                                         LegendStyle="Row" />  
                                 </Legends>  
                                 <Series>  
-                                    <asp:Series Name="Default" />  
+                                    <asp:Series IsVisibleInLegend="false" />  
                                 </Series>  
                                 <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                    <asp:ChartArea Name="ChartArea1" BorderWidth="10" />  
                                 </ChartAreas>  
                             </asp:Chart> 
                         </td>
                         <td>
                             <h3>Profit Reality</h3>
-                             <asp:Chart ID="chartProfitReality" runat="server"  
-                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
-                                Width="380px" BorderlineColor="64, 0, 64"
-                                >  
-                                <Titles>  
-                                    <asp:Title ShadowOffset="10" Name="Items" />  
-                                </Titles>  
-                                <Legends>  
-                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
-                                        LegendStyle="Row" />  
-                                </Legends>  
-                                <Series>  
-                                    <asp:Series Name="Default" />  
-                                </Series>  
-                                <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
-                                </ChartAreas>  
-                            </asp:Chart> 
+                            <asp:Image runat="server" ID="imgprofitreality" />
                         </td>
                     </tr>
                     <tr>
