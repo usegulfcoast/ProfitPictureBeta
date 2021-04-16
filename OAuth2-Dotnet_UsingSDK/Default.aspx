@@ -217,6 +217,16 @@
                             </asp:Chart> 
                         </td>
                     </tr>
+                    <tr>
+                        <td style="width:380px; text-align: center; vertical-align: central">
+                            <h3>Revenue to Expense Ratio</h3>
+                            <asp:Label runat="server" ID="lblratio" Font-Size="82" ForeColor="Green" Text="1.34"></asp:Label>
+                        </td>
+                        <td>
+                            <h3></h3>
+
+                        </td>
+                    </tr>
                 </table>
 
               

@@ -491,6 +491,8 @@ namespace OAuth2_Dotnet_UsingSDK
                     LoadExpenseGrowth();
                     LoadProfitGrowth();
 
+                    LoadRevExpenseRatio();
+
                     this.metrics.Visible = true;
                 }
 
@@ -770,6 +772,16 @@ namespace OAuth2_Dotnet_UsingSDK
             chartProfitGrowth.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Column;
         }
 
+        private void LoadRevExpenseRatio()
+        {
+            decimal chartval2rev = _items.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+            decimal chartval2exp = _items.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+
+            if (chartval2exp != decimal.Zero)
+                lblratio.Text = (chartval2rev / chartval2exp).ToString("0.00");
+            else
+                lblratio.Text = "n/a";
+        }
 
 
         protected void chartPredictableRevenue_Click(object sender, System.Web.UI.WebControls.ImageMapEventArgs e)
