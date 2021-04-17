@@ -45,6 +45,12 @@ namespace OAuth2_Dotnet_UsingSDK
         public static IList<JsonWebKey> keys;
         public static Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
+        private List<SnapshotListItem> _items = new List<SnapshotListItem>();
+        private List<SnapshotListItem> _prevperioditems = new List<SnapshotListItem>();
+
+        private string[] _recurringSalesItems = new string[] { "Gardening", "Trimming", "Services" };
+        private string[] _growthSalesItem = new string[] { "Concrete" };
+
         protected void Page_PreInit(object sender, EventArgs e)
         {
             if (!dictionary.ContainsKey("accessToken"))
@@ -90,6 +96,8 @@ namespace OAuth2_Dotnet_UsingSDK
                                 PageAsyncTask t = new PageAsyncTask(PerformCodeExchange);
                                 Page.RegisterAsyncTask(t);
                                 Page.ExecuteRegisteredAsyncTasks();
+
+                               
                             }
                         }
                         else
@@ -104,33 +112,16 @@ namespace OAuth2_Dotnet_UsingSDK
             {
                 mainButtons.Visible = false;
                 connected.Visible = true;
+                if (Page.IsPostBack && dictionary.ContainsKey("accessToken") && dictionary.ContainsKey("realmId"))
+                {
+                    await CallAll();
+                }
             }
         }
 
-        #region button click events
-
-        protected void ImgOpenId_Click(object sender, ImageClickEventArgs e)
+        private void Output(string s)
         {
-            Output("Intiating OpenId call.");
-            try
-            {
-                if (!dictionary.ContainsKey("accessToken"))
-                {
-                    List<OidcScopes> scopes = new List<OidcScopes>();
-                    scopes.Add(OidcScopes.OpenId);
-                    scopes.Add(OidcScopes.Phone);
-                    scopes.Add(OidcScopes.Profile);
-                    scopes.Add(OidcScopes.Address);
-                    scopes.Add(OidcScopes.Email);
 
-                    var authorizationRequest = oauthClient.GetAuthorizationURL(scopes);
-                    Response.Redirect(authorizationRequest, "_blank", "menubar=0,scrollbars=1,width=780,height=900,top=10");
-                }
-            }
-            catch (Exception ex)
-            {
-                Output(ex.Message);
-            }
         }
 
         protected void ImgC2QB_Click(object sender, ImageClickEventArgs e)
@@ -151,89 +142,6 @@ namespace OAuth2_Dotnet_UsingSDK
                 Output(ex.Message);
             }
         }
-
-        protected void ImgGetAppNow_Click(object sender, ImageClickEventArgs e)
-        {
-            Output("Intiating Get App Now call.");
-            try
-            {
-                if (!dictionary.ContainsKey("accessToken"))
-                {
-                    List<OidcScopes> scopes = new List<OidcScopes>();
-                    scopes.Add(OidcScopes.Accounting);
-                    scopes.Add(OidcScopes.OpenId);
-                    scopes.Add(OidcScopes.Phone);
-                    scopes.Add(OidcScopes.Profile);
-                    scopes.Add(OidcScopes.Address);
-                    scopes.Add(OidcScopes.Email);
-
-                    var authorizationRequest = oauthClient.GetAuthorizationURL(scopes);
-                    Response.Redirect(authorizationRequest, "_blank", "menubar=0,scrollbars=1,width=780,height=900,top=10");
-                }
-            }
-            catch (Exception ex)
-            {
-                Output(ex.Message);
-            }
-        }
-
-        protected async void btnQBOAPICall_Click(object sender, EventArgs e)
-        {
-            if (dictionary.ContainsKey("accessToken") && dictionary.ContainsKey("realmId"))
-            {
-                await QboApiCall();
-            }
-            else
-            {
-                Output("Access token not found.");
-                //lblQBOCall.Visible = true;
-                //lblQBOCall.Text = "Access token not found.";
-            }
-        }
-
-        protected async void btnUserInfo_Click(object sender, EventArgs e)
-        {
-            if (idToken != null)
-            {
-                var userInfoResp = await oauthClient.GetUserInfoAsync(dictionary["accessToken"]);
-                //lblUserInfo.Visible = true;
-                //lblUserInfo.Text = userInfoResp.Raw;
-            }
-            else
-            {
-                //lblUserInfo.Visible = true;
-                //lblUserInfo.Text = "UserInfo call is available through OpenId/GetAppNow flow first.";
-                Output("Go through OpenId flow first.");
-            }
-        }
-
-        protected async void btnRefresh_Click(object sender, EventArgs e)
-        {
-            if ((dictionary.ContainsKey("accessToken")) && (dictionary.ContainsKey("refreshToken")))
-            {
-                Output("Exchanging refresh token for access token.");
-                var tokenResp = await oauthClient.RefreshTokenAsync(dictionary["refreshToken"]);
-            }
-        }
-
-        protected async void btnRevoke_Click(object sender, EventArgs e)
-        {
-            Output("Performing Revoke tokens.");
-            if ((dictionary.ContainsKey("accessToken")) && (dictionary.ContainsKey("refreshToken")))
-            {
-                var revokeTokenResp = await oauthClient.RevokeTokenAsync(dictionary["refreshToken"]);
-                if (revokeTokenResp.HttpStatusCode == HttpStatusCode.OK)
-                {
-                    dictionary.Clear();
-                    if (Request.Url.Query == "")
-                        Response.Redirect(Request.RawUrl);
-                    else
-                        Response.Redirect(Request.RawUrl.Replace(Request.Url.Query, ""));
-                }
-                Output("Token revoked.");
-            }
-        }
-        #endregion
 
         /// <summary>
         /// Start code exchange to get the Access Token and Refresh Token
@@ -384,49 +292,7 @@ namespace OAuth2_Dotnet_UsingSDK
             }
         }
 
-
-        #region Helper methods for logging
-        /// <summary>
-        /// Gets log path
-        /// </summary>
-        public string GetLogPath()
-        {
-            try
-            {
-                if (logPath == "")
-                {
-                    logPath = Environment.GetEnvironmentVariable("TEMP");
-                    if (!logPath.EndsWith("\\")) logPath += "\\";
-                }
-            }
-            catch
-            {
-                Output("Log error path not found.");
-            }
-            return logPath;
-        }
-
-        /// <summary>
-        /// Appends the given string to the on-screen log, and the debug console.
-        /// </summary>
-        /// <param name="logMsg">string to be appended</param>
-        public void Output(string logMsg)
-        {
-            StreamWriter sw = File.AppendText(GetLogPath() + "OAuth2SampleAppLogs.txt");
-            try
-            {
-                string logLine = System.String.Format(
-                    "{0:G}: {1}.", System.DateTime.Now, logMsg);
-                sw.WriteLine(logLine);
-            }
-            finally
-            {
-                sw.Close();
-            }
-        }
-        #endregion
-
-        protected async void btninsertstmt_Click(object sender, EventArgs e)
+        protected async void btnloaddashboard_Click(object sender, EventArgs e)
         {
             if (dictionary.ContainsKey("accessToken") && dictionary.ContainsKey("realmId"))
             {
@@ -435,8 +301,6 @@ namespace OAuth2_Dotnet_UsingSDK
             else
             {
                 Output("Access token not found.");
-                //lblQBOCall.Visible = true;
-                //lblQBOCall.Text = "Access token not found.";
             }
         }
 
@@ -527,10 +391,6 @@ namespace OAuth2_Dotnet_UsingSDK
         }
 
 
-
-        private List<SnapshotListItem> _items = new List<SnapshotListItem>();
-        private List<SnapshotListItem> _prevperioditems = new List<SnapshotListItem>();
-
         private void loadItems(string startdt, string enddt, string accttype, ref ReportService reportService, ref ServiceContext serviceContext, bool isCurrentItem = true)
         {
             reportService.accounting_method = accttype;
@@ -610,16 +470,10 @@ namespace OAuth2_Dotnet_UsingSDK
 
         }
 
-        public class SnapshotListItem
-        {
-            public int id { get; set; }
-            public string Acct { get; set; }
-            public string AcctType { get; set; }
-            public decimal Value { get; set; } = decimal.Zero;
-        }
+        
 
-        private string[] _recurringSalesItems = new string[] { "Gardening", "Trimming", "Services" };
-        private string[] _growthSalesItem = new string[] { "Concrete" };
+
+        #region Dashboard Loading Methods
 
         private void LoadPredictableRevenue()
         {
@@ -732,7 +586,6 @@ namespace OAuth2_Dotnet_UsingSDK
             chartExpenseGrowth.Series[0].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Column;
         }
 
-
         private void LoadProfitGrowth()
         {
             string label1 = "";
@@ -783,16 +636,18 @@ namespace OAuth2_Dotnet_UsingSDK
                 lblratio.Text = "n/a";
         }
 
+        #endregion
+
+        #region ChartClickEvents
 
         protected void chartPredictableRevenue_Click(object sender, System.Web.UI.WebControls.ImageMapEventArgs e)
         {
             int a = 1;
         }
+
+        #endregion
     }
 
-    /// <summary>
-    /// Helper for calling self
-    /// </summary>
     public static class ResponseHelper
     {
         public static void Redirect(this HttpResponse response, string url, string target, string windowFeatures)
@@ -822,5 +677,13 @@ namespace OAuth2_Dotnet_UsingSDK
                 ScriptManager.RegisterStartupScript(page, typeof(Page), "Redirect", script, true);
             }
         }
+    }
+
+    public class SnapshotListItem
+    {
+        public int id { get; set; }
+        public string Acct { get; set; }
+        public string AcctType { get; set; }
+        public decimal Value { get; set; } = decimal.Zero;
     }
 }

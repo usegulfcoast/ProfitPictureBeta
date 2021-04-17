@@ -11,279 +11,316 @@
                 Response.Write("<script> window.opener.location.reload();window.close(); </script>");
             }
         %> 
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     </head>
-    <body>
-        <form id="form1" runat="server">
-            <div>
-                 <h3>Profit Progress powered by Mach1</h3>
-                <p>&nbsp;</p>
-            </div>
+    <body class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <form id="form1" runat="server">
+                    <div>
+                         <h3>Profit Progress</h3>
+                        <p>&nbsp;</p>
+                    </div>
 
-                 <div id="mainButtons" runat="server" visible ="false">
-            <!-- Sign In With Intuit Button -->
-                <br />
-                <asp:ImageButton id="btnSIWI" runat="server" AlternateText="Sign In With Intuit"
-                   ImageAlign="left"
-                   ImageUrl="Images/IntuitSignIn-lg-white@2x.jpg"
-                   OnClick="ImgOpenId_Click" Height="40px" Width="200px" Visible="False"/>
-                <br /><br /><br />
+                         <div id="mainButtons" runat="server" visible ="false">
 
-                <!-- Connect To QuickBooks Button -->
-                <b>To use this dashboard, you must first sign into QuickBooks</b><br />
-                <asp:ImageButton id="btnOAuth" runat="server" AlternateText="Connect to Quickbooks"
-                       ImageAlign="left"
-                       ImageUrl="Images/C2QB_white_btn_lg_default.png"
-                       OnClick="ImgC2QB_Click" Height="40px" Width="200px"/>
-                 <br />
-                <br />
-                <br />
-                <br /><br />
+                        <!-- Connect To QuickBooks Button -->
+                        <b>To use this dashboard, you must first sign into QuickBooks</b><br />
+                        <asp:ImageButton id="btnOAuth" runat="server" AlternateText="Connect to Quickbooks"
+                               ImageAlign="left"
+                               ImageUrl="Images/C2QB_white_btn_lg_default.png"
+                               OnClick="ImgC2QB_Click" Height="40px" Width="200px"/>
+                         <br />
+                        <br />
+                        <br />
+                        <br /><br />
          
 
-                <asp:GridView runat="server" ID="GridView1">
+                        <asp:GridView runat="server" ID="GridView1">
 
-                </asp:GridView>
+                        </asp:GridView>
 
-                <br />
-                <br />
+                        <br />
+                        <br />
 
-               <!-- Get App Now -->
-                <br />
-               <asp:ImageButton id="btnOpenId" runat="server" AlternateText="Get App Now"
-                       ImageAlign="left"
-                       ImageUrl="Images/Get_App.png"
-                       OnClick="ImgGetAppNow_Click" CssClass="font-size:14px; border: 1px solid grey; padding: 10px; color: red" Height="40px" Width="200px" Visible="False"/>
-                 <br /><br /><br />
-            </div>
+                       <!-- Get App Now -->
+                        <br />
+              
+                    </div>
       
-            <div>
-                <asp:GridView runat="server" ID="dtdata" Visible="false">
-                </asp:GridView>
-            </div>
+                    <div>
+                        <asp:GridView runat="server" ID="dtdata" Visible="false">
+                        </asp:GridView>
+                    </div>
 
-            <div id="connected" runat="server">
+                    <div id="connected" runat="server">
 
-                <table>
-                    <tr>
-                        <td><asp:Label runat="server" Text="Start Date"></asp:Label></td>
-                        <td><asp:TextBox runat="server" ID="dtstart" Text="2020-11-01" TextMode="Date"></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td><asp:Label  runat="server" Text="End Date"></asp:Label></td>
-                        <td><asp:TextBox runat="server" ID="dtend" Text="2020-12-3" TextMode="Date"></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td><asp:Label  runat="server" Text="Type"></asp:Label></td>
-                        <td> 
-                            <asp:DropDownList runat="server" ID="cbcashoraccrual">
+                        <div class="form-group form-inline">
+                            <label for="dtstart" style="width: 150px">Start Date</label>
+                            <asp:TextBox runat="server" ID="dtstart" Text="2020-11-01" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="dtend" style="width: 150px">End Date</label>
+                            <asp:TextBox runat="server" ID="dtend" Text="2020-11-01" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="dtstart" style="width: 150px">Type</label>
+                            <asp:DropDownList runat="server" ID="cbcashoraccrual" CssClass="form-control">
                                 <asp:ListItem Text="Cash" Value="Cash"></asp:ListItem>
                                 <asp:ListItem Text="Accrual" Value="Accrual"></asp:ListItem>
                             </asp:DropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Comparison to</td>
-                        <td>
-                            <asp:DropDownList runat="server" ID="cbgrowthcompare">
+                        </div>
+                        <div class="form-group form-inline">
+                             <label for="dtstart" style="width: 150px">Comparison to</label>
+                             <asp:DropDownList runat="server" ID="cbgrowthcompare" CssClass="form-control">
                                 <asp:ListItem Text="Last Year" Value="LastYear"></asp:ListItem>
                                 <asp:ListItem Text="Last Month" Value="LastMonth"></asp:ListItem>
                             </asp:DropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <asp:Button id="btninsertstmt" runat="server" Text="Load Dashboard!" OnClick="btninsertstmt_Click"/>
-                        </td>
-                    </tr>
-                </table>
+                        </div>
+                        <div class="form-group">
+                            <asp:Button id="btnloaddashboard" runat="server" Text="Load Dashboard!" OnClick="btnloaddashboard_Click" CssClass="btn btn-primary"/>
+                        </div>
+                        
 
                 
-            </div>
+                    </div>
 
 
-            <div id="metrics" runat="server" visible="false">
 
-                <table style="width: 1040px">
-                    <tr>
-                        <td>
-                            <h3>Predictable Revenue</h3>
-                            <asp:Chart OnClick="chartPredictableRevenue_Click"  ID="chartPredictableRevenue" runat="server"  
-                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
-                                Width="380px" BorderlineColor="64, 0, 64"
-                                >  
-                                <Titles>  
-                                    <asp:Title ShadowOffset="10" Name="Items" />  
-                                </Titles>  
-                                <Legends>  
-                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
-                                        LegendStyle="Row" />  
-                                </Legends>  
-                                <Series>  
-                                    <asp:Series Name="Default" IsVisibleInLegend="false" />  
-                                </Series>  
-                                <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
-                                </ChartAreas>  
-                    </asp:Chart>  
-                        </td>
-                        <td>
-                             <h3>Profit Quilt</h3>
-                             <asp:Chart ID="chartProfitQuilt" runat="server"  
-                                BorderlineWidth="1" Height="360px" Palette="SeaGreen"
-                                Width="380px" BorderlineColor="64, 0, 64"
-                                >  
-                                <Titles>  
-                                    <asp:Title ShadowOffset="10" Name="Items" />  
-                                </Titles>  
-                                <Legends>  
-                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
-                                        LegendStyle="Row" />  
-                                </Legends>  
-                                <Series>  
-                                    <asp:Series IsVisibleInLegend="false" />  
-                                </Series>  
-                                <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="10" />  
-                                </ChartAreas>  
-                            </asp:Chart> 
-                        </td>
-                        <td>
-                            <h3>Profit Reality</h3>
-                            <asp:Image runat="server" ID="imgprofitreality" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>Revenue Growth</h3>
-                             <asp:Chart ID="chartRevenueGrowth" runat="server"  
-                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
-                                Width="380px" BorderlineColor="64, 0, 64"
-                                >  
-                                <Titles>  
-                                    <asp:Title ShadowOffset="10" Name="Items" />  
-                                </Titles>  
-                                <Legends>  
-                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
-                                        LegendStyle="Row" />  
-                                </Legends>  
-                                <Series>  
-                                    <asp:Series Name="Default" />  
-                                </Series>  
-                                <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
-                                </ChartAreas>  
-                            </asp:Chart> 
-                        </td>
-                        <td>
-                            <h3>Expense Growth</h3>
-                            <asp:Chart ID="chartExpenseGrowth" runat="server"  
-                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
-                                Width="380px" BorderlineColor="64, 0, 64"
-                                >  
-                                <Titles>  
-                                    <asp:Title ShadowOffset="10" Name="Items" />  
-                                </Titles>  
-                                <Legends>  
-                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
-                                        LegendStyle="Row" />  
-                                </Legends>  
-                                <Series>  
-                                    <asp:Series Name="Default" />  
-                                </Series>  
-                                <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
-                                </ChartAreas>  
-                            </asp:Chart> 
-                        </td>
-                        <td>
-                            <h3>EBIT Growth</h3>
-                            <asp:Chart ID="chartProfitGrowth" runat="server"  
-                                BorderlineWidth="0" Height="360px" Palette="SeaGreen"
-                                Width="380px" BorderlineColor="64, 0, 64"
-                                >  
-                                <Titles>  
-                                    <asp:Title ShadowOffset="10" Name="Items" />  
-                                </Titles>  
-                                <Legends>  
-                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
-                                        LegendStyle="Row" />  
-                                </Legends>  
-                                <Series>  
-                                    <asp:Series Name="Default" />  
-                                </Series>  
-                                <ChartAreas>  
-                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
-                                </ChartAreas>  
-                            </asp:Chart> 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:380px; text-align: center; vertical-align: central">
-                            <h3>Revenue to Expense Ratio</h3>
-                            <asp:Label runat="server" ID="lblratio" Font-Size="82" ForeColor="Green" Text="1.34"></asp:Label>
-                        </td>
-                        <td>
-                            <h3></h3>
 
-                        </td>
-                    </tr>
-                </table>
+                    <div id="metrics" runat="server" visible="false">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                    <h5 class="card-title">Predictable Revenue</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                    <p class="card-text">
+                                            <asp:Chart OnClick="chartPredictableRevenue_Click"  ID="chartPredictableRevenue" runat="server"  
+                                                BorderlineWidth="0" Palette="SeaGreen" BorderlineColor="64, 0, 64"
+                                                >  
+                                                <Titles>  
+                                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                                </Titles>  
+                                                <Legends>  
+                                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                                        LegendStyle="Row" />  
+                                                </Legends>  
+                                                <Series>  
+                                                    <asp:Series Name="Default" IsVisibleInLegend="false" />  
+                                                </Series>  
+                                                <ChartAreas>  
+                                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                                </ChartAreas>  
+                                    </asp:Chart>  
+
+
+                                    </p>
+                                    <a href="#" class="card-link">More details</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                 <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Profit Quilt</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                             <asp:Chart ID="chartProfitQuilt" runat="server" BorderlineWidth="1" Palette="SeaGreen" BorderlineColor="64, 0, 64" >  
+                                                <Titles>  
+                                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                                </Titles>  
+                                                <Legends>  
+                                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                                        LegendStyle="Row" />  
+                                                </Legends>  
+                                                <Series>  
+                                                    <asp:Series IsVisibleInLegend="false" />  
+                                                </Series>  
+                                                <ChartAreas>  
+                                                    <asp:ChartArea Name="ChartArea1" BorderWidth="10" />  
+                                                </ChartAreas>  
+                                            </asp:Chart> 
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                            </div>
+                            <div class="col-xs-4">
+                                 <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Profit Reality</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                            <asp:Image runat="server" ID="imgprofitreality" Width="300px" Height="300px" />
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                 <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Revenue Growth</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                             <asp:Chart ID="chartRevenueGrowth" runat="server" BorderlineWidth="0" Palette="SeaGreen" BorderlineColor="64, 0, 64">  
+                                                <Titles>  
+                                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                                </Titles>  
+                                                <Legends>  
+                                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                                        LegendStyle="Row" />  
+                                                </Legends>  
+                                                <Series>  
+                                                    <asp:Series Name="Default" />  
+                                                </Series>  
+                                                <ChartAreas>  
+                                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                                </ChartAreas>  
+                                            </asp:Chart> 
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                              </div>
+                            <div class="col-xs-4">
+                                 <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Expense Growth</h5>
+                                       <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                             <asp:Chart ID="chartExpenseGrowth" runat="server" BorderlineWidth="0" Palette="SeaGreen" BorderlineColor="64, 0, 64">  
+                                                <Titles>  
+                                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                                </Titles>  
+                                                <Legends>  
+                                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                                        LegendStyle="Row" />  
+                                                </Legends>  
+                                                <Series>  
+                                                    <asp:Series Name="Default" />  
+                                                </Series>  
+                                                <ChartAreas>  
+                                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                                </ChartAreas>  
+                                            </asp:Chart> 
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                              </div>
+                            <div class="col-xs-4">
+                                 <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">EBIT Growth</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                             <asp:Chart ID="chartProfitGrowth" runat="server" BorderlineWidth="0" Palette="SeaGreen" BorderlineColor="64, 0, 64">  
+                                                <Titles>  
+                                                    <asp:Title ShadowOffset="10" Name="Items" />  
+                                                </Titles>  
+                                                <Legends>  
+                                                    <asp:Legend Alignment="Center" Docking="Bottom" IsTextAutoFit="False" Name="Default"  
+                                                        LegendStyle="Row" />  
+                                                </Legends>  
+                                                <Series>  
+                                                    <asp:Series Name="Default" />  
+                                                </Series>  
+                                                <ChartAreas>  
+                                                    <asp:ChartArea Name="ChartArea1" BorderWidth="0" />  
+                                                </ChartAreas>  
+                                            </asp:Chart> 
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                              </div>
+
+                            <div class="col-xs-4">
+                                <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Revenue to Expense Ratio</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                             <asp:Label runat="server" Width="300px" ID="lblratio" Font-Size="82" ForeColor="Green" Text="1.34"></asp:Label>
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                            </div>
+
+                        </div> <!-- end of row -->
+
 
               
-                
-                <div>
-                    <h4>List of Items pulled (development only)</h4>
-                    <asp:DataList runat="server" ID="dlitems" RepeatLayout="Table">
-                        <ItemTemplate>
-                            <table class="table" style="width: 800px">  
-                                <tr>  
-                                    <td style="min-width: 400px">  
-                                        <%# Eval("Acct") %>  
-                                    </td>
-                                    <td style="min-width: 100px">  
-                                        <%# Eval("AcctType") %>
-                                    </td>  
-                                    <td style="min-width: 100px">  
-                                        <%# Eval("Value") %> 
-                                    </td>  
-                                </tr>  
-                            </table>  
-                        </ItemTemplate>
-                    </asp:DataList>
-                    <h4>Log</h4>
-                    <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="txtlog" Visible="false"></asp:TextBox>
-                </div>
-                <div>
-                    <h4>List of Previous Period Items pulled (development only)</h4>
-                    <asp:DataList runat="server" ID="dlitemsprev" RepeatLayout="Table">
-                        <ItemTemplate>
-                            <table class="table" style="width: 800px">  
-                                <tr>  
-                                    <td style="min-width: 400px">  
-                                        <%# Eval("Acct") %>  
-                                    </td>
-                                    <td style="min-width: 100px">  
-                                        <%# Eval("AcctType") %>
-                                    </td>  
-                                    <td style="min-width: 100px">  
-                                        <%# Eval("Value") %> 
-                                    </td>  
-                                </tr>  
-                            </table>  
-                        </ItemTemplate>
-                    </asp:DataList>
-                    <h4>Log</h4>
-                    <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="TextBox1" Visible="false"></asp:TextBox>
-                </div>
-            </div>
-
+                        <div style="display: none">
+                            <div>
+                                <h4>List of Items pulled (development only)</h4>
+                                <asp:DataList runat="server" ID="dlitems" RepeatLayout="Table">
+                                    <ItemTemplate>
+                                        <table class="table" style="width: 800px">  
+                                            <tr>  
+                                                <td style="min-width: 400px">  
+                                                    <%# Eval("Acct") %>  
+                                                </td>
+                                                <td style="min-width: 100px">  
+                                                    <%# Eval("AcctType") %>
+                                                </td>  
+                                                <td style="min-width: 100px">  
+                                                    <%# Eval("Value") %> 
+                                                </td>  
+                                            </tr>  
+                                        </table>  
+                                    </ItemTemplate>
+                                </asp:DataList>
+                                <h4>Log</h4>
+                                <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="txtlog" Visible="false"></asp:TextBox>
+                            </div>
+                            <div>
+                                <h4>List of Previous Period Items pulled (development only)</h4>
+                                <asp:DataList runat="server" ID="dlitemsprev" RepeatLayout="Table">
+                                    <ItemTemplate>
+                                        <table class="table" style="width: 800px">  
+                                            <tr>  
+                                                <td style="min-width: 400px">  
+                                                    <%# Eval("Acct") %>  
+                                                </td>
+                                                <td style="min-width: 100px">  
+                                                    <%# Eval("AcctType") %>
+                                                </td>  
+                                                <td style="min-width: 100px">  
+                                                    <%# Eval("Value") %> 
+                                                </td>  
+                                            </tr>  
+                                        </table>  
+                                    </ItemTemplate>
+                                </asp:DataList>
+                                <h4>Log</h4>
+                                <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="TextBox1" Visible="false"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div> <!-- end of metrics -->
 
 
         
 
 
-        </form>
-
+                </form>
+            </div>
+        </div>
+        
+        <% if (dictionary.ContainsKey("accessToken"))
+            {
+                Response.Write("<script> window.opener.location.reload();window.close(); </script>");
+            }
+        %> 
        
 
     </body>

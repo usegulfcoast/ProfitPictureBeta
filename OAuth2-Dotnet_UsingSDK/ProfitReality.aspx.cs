@@ -18,7 +18,7 @@ namespace OAuth2_Dotnet_UsingSDK
             int userpercent_12 = Convert.ToInt32(Request.QueryString["up12"]);
             int userpercent_3 = Convert.ToInt32(Request.QueryString["up3"]); 
 
-            int size = 360;
+            int size = 290;
             int trianglesize = 5;
             Font drawFont = new Font("Arial", 8);
 

@@ -33,15 +33,6 @@ namespace OAuth2_Dotnet_UsingSDK
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl mainButtons;
 
         /// <summary>
-        /// btnSIWI control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnSIWI;
-
-        /// <summary>
         /// btnOAuth control.
         /// </summary>
         /// <remarks>
@@ -58,15 +49,6 @@ namespace OAuth2_Dotnet_UsingSDK
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
-
-        /// <summary>
-        /// btnOpenId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnOpenId;
 
         /// <summary>
         /// dtdata control.
@@ -123,13 +105,13 @@ namespace OAuth2_Dotnet_UsingSDK
         protected global::System.Web.UI.WebControls.DropDownList cbgrowthcompare;
 
         /// <summary>
-        /// btninsertstmt control.
+        /// btnloaddashboard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btninsertstmt;
+        protected global::System.Web.UI.WebControls.Button btnloaddashboard;
 
         /// <summary>
         /// metrics control.
