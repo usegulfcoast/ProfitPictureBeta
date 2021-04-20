@@ -255,9 +255,47 @@
                                       </div>
                                     </div>
                             </div>
+                            <div class="col-xs-12" style="min-width: 600px">
+                                <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Relative Humidity Check</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                         <table class="table" style="padding: 2px">
+                                                 <thead>
+                                                     <tr>
+                                                         <td>Measurement</td>
+                                                         <td>Min</td>
+                                                         <td>Mid</td>
+                                                         <td>Max</td>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                     <tr>
+                                                         <td>By EBITA</td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_ebita_min" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_ebita_mid" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_ebita_max" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                     </tr>
+                                                     <tr>
+                                                         <td>By Revenue</td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_rev_min" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_rev_mid" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_rev_max" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                     </tr>
+                                                     <tr>
+                                                         <td>By SIC <asp:Label runat="server" ID="lblsic" Font-Size="12" /></td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_sic_min" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                         <td><asp:Label runat="server" ID="lbl_relhum_sic_mid" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                         <td><asp:Label runat="server"  ID="lbl_relhum_sic_max" Font-Size="12" Text="1.34"></asp:Label></td>
+                                                     </tr>
+                                                 </tbody>
+                                             </table>
+                                      </div>
+                                    </div>
+                            </div>
 
                         </div> <!-- end of row -->
-
+                        <hr />
 
               
                         <div style="display: none">

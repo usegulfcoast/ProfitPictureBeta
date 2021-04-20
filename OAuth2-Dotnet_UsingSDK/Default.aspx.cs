@@ -50,6 +50,8 @@ namespace OAuth2_Dotnet_UsingSDK
 
         private string[] _recurringSalesItems = new string[] { "Gardening", "Trimming", "Services" };
         private string[] _growthSalesItem = new string[] { "Concrete" };
+        private string[] _sicCodeArray = new string[] { "45001" };
+        private decimal[] _sicCodeMults = new decimal[] { 2.01m, 3.11m, 5.6m };
 
         protected void Page_PreInit(object sender, EventArgs e)
         {
@@ -357,6 +359,8 @@ namespace OAuth2_Dotnet_UsingSDK
 
                     LoadRevExpenseRatio();
 
+                    LoadRelativeHumidity();
+
                     this.metrics.Visible = true;
                 }
 
@@ -634,6 +638,31 @@ namespace OAuth2_Dotnet_UsingSDK
                 lblratio.Text = (chartval2rev / chartval2exp).ToString("0.00");
             else
                 lblratio.Text = "n/a";
+        }
+
+        private void LoadRelativeHumidity()
+        {
+            //lbl_relhum_ebita_min
+            decimal rev = _items.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+            decimal exp = _items.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+            decimal prof = decimal.Zero;
+            if (exp != decimal.Zero)
+                prof = rev - exp;
+
+
+            lbl_relhum_ebita_min.Text = (prof * _sicCodeMults[0]).ToString("c0");
+            lbl_relhum_ebita_mid.Text = (prof * _sicCodeMults[1]).ToString("c0");
+            lbl_relhum_ebita_max.Text = (prof * _sicCodeMults[2]).ToString("c0");
+
+            lbl_relhum_rev_min.Text = (rev * _sicCodeMults[0]).ToString("c0");
+            lbl_relhum_rev_mid.Text = (rev * _sicCodeMults[1]).ToString("c0");
+            lbl_relhum_rev_max.Text = (rev * _sicCodeMults[2]).ToString("c0");
+
+            lbl_relhum_sic_min.Text = _sicCodeMults[0].ToString("0.00");
+            lbl_relhum_sic_mid.Text = _sicCodeMults[1].ToString("0.00");
+            lbl_relhum_sic_max.Text = _sicCodeMults[2].ToString("0.00");
+
+            lblsic.Text = _sicCodeArray[0];
         }
 
         #endregion

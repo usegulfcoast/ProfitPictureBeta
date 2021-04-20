@@ -186,6 +186,96 @@ namespace OAuth2_Dotnet_UsingSDK
         protected global::System.Web.UI.WebControls.Label lblratio;
 
         /// <summary>
+        /// lbl_relhum_ebita_min control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_ebita_min;
+
+        /// <summary>
+        /// lbl_relhum_ebita_mid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_ebita_mid;
+
+        /// <summary>
+        /// lbl_relhum_ebita_max control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_ebita_max;
+
+        /// <summary>
+        /// lbl_relhum_rev_min control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_rev_min;
+
+        /// <summary>
+        /// lbl_relhum_rev_mid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_rev_mid;
+
+        /// <summary>
+        /// lbl_relhum_rev_max control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_rev_max;
+
+        /// <summary>
+        /// lblsic control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblsic;
+
+        /// <summary>
+        /// lbl_relhum_sic_min control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_sic_min;
+
+        /// <summary>
+        /// lbl_relhum_sic_mid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_sic_mid;
+
+        /// <summary>
+        /// lbl_relhum_sic_max control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_relhum_sic_max;
+
+        /// <summary>
         /// dlitems control.
         /// </summary>
         /// <remarks>
