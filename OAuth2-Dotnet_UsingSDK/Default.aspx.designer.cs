@@ -186,6 +186,15 @@ namespace OAuth2_Dotnet_UsingSDK
         protected global::System.Web.UI.WebControls.Label lblratio;
 
         /// <summary>
+        /// lblratio_prev control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblratio_prev;
+
+        /// <summary>
         /// lbl_relhum_ebita_min control.
         /// </summary>
         /// <remarks>

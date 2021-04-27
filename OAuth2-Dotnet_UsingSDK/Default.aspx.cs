@@ -71,6 +71,10 @@ namespace OAuth2_Dotnet_UsingSDK
         {
             AsyncMode = true;
 
+            if (Environment.MachineName.ToLower().Contains("cody"))
+                redirectURI = "http://localhost:59785/Default.aspx";
+
+
             if (Request.QueryString["signoff"] == "Y")
                 dictionary.Clear();
 
@@ -638,6 +642,15 @@ namespace OAuth2_Dotnet_UsingSDK
                 lblratio.Text = (chartval2rev / chartval2exp).ToString("0.00");
             else
                 lblratio.Text = "n/a";
+
+            decimal chartval2rev_prev = _prevperioditems.Where(x => x.AcctType == "PRODUCT").Sum(s => s.Value);
+            decimal chartval2exp_prev = _prevperioditems.Where(x => x.AcctType == "EXPENSE").Sum(s => s.Value);
+
+            if (chartval2exp_prev != decimal.Zero)
+                lblratio_prev.Text = (chartval2rev_prev / chartval2exp_prev).ToString("0.00");
+            else
+                lblratio_prev.Text = "n/a";
+
         }
 
         private void LoadRelativeHumidity()

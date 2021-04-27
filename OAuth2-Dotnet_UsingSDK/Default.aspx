@@ -246,10 +246,22 @@
                             <div class="col-xs-4">
                                 <div class="card">
                                       <div class="card-body">
-                                        <h5 class="card-title">Revenue to Expense Ratio</h5>
+                                        <h5 class="card-title">Revenue to Expense Ratio (This Term)</h5>
                                         <h6 class="card-subtitle mb-2 text-muted"> </h6>
                                         <p class="card-text">
                                              <asp:Label runat="server" Width="300px" ID="lblratio" Font-Size="82" ForeColor="Green" Text="1.34"></asp:Label>
+                                        </p>
+                                        <a href="#" class="card-link">More details</a>
+                                      </div>
+                                    </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Revenue to Expense Ratio (Last Term)</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"> </h6>
+                                        <p class="card-text">
+                                             <asp:Label runat="server" Width="300px" ID="lblratio_prev" Font-Size="82" ForeColor="LightGreen" Text="1.34"></asp:Label>
                                         </p>
                                         <a href="#" class="card-link">More details</a>
                                       </div>
