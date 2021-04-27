@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace OAuth2_Dotnet_UsingSDK
+namespace ProfitProgress.web
 {
     public partial class ProfitReality
     {

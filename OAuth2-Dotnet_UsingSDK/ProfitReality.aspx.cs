@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace OAuth2_Dotnet_UsingSDK
+namespace ProfitProgress.web
 {
     public partial class ProfitReality : System.Web.UI.Page
     {

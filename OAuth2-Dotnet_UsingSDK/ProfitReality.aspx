@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProfitReality.aspx.cs" Inherits="OAuth2_Dotnet_UsingSDK.ProfitReality" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProfitReality.aspx.cs" Inherits="ProfitProgress.web.ProfitReality" %>
 
 <!DOCTYPE html>
 

@@ -29,7 +29,7 @@ using Intuit.Ipp.Exception;
 using System.Linq;
 using Intuit.Ipp.ReportService;
 
-namespace OAuth2_Dotnet_UsingSDK
+namespace ProfitProgress.web
 {
     public partial class Default : System.Web.UI.Page
     {

@@ -12,7 +12,7 @@ using Intuit.Ipp.QueryFilter;
 using Intuit.Ipp.Data;
 using Intuit.Ipp.ReportService;
 
-namespace OAuth2_Dotnet_UsingSDK
+namespace ProfitProgress.web
 {
     public class QBOHelper
     {

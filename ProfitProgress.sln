@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth2-Dotnet_UsingSDK", "OAuth2-Dotnet_UsingSDK\OAuth2-Dotnet_UsingSDK.csproj", "{5573F08E-0683-49D1-86C6-BF68E29A3EE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfitProgress.web", "OAuth2-Dotnet_UsingSDK\ProfitProgress.web.csproj", "{5573F08E-0683-49D1-86C6-BF68E29A3EE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9084F69-3050-40C9-B79D-3DA023EE4FC6}
 	EndGlobalSection
 EndGlobal

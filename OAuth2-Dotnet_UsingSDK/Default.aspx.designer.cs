@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OAuth2_Dotnet_UsingSDK
+namespace ProfitProgress.web
 {
 
 
