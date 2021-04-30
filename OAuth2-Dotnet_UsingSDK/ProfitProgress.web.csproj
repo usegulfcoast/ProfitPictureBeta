@@ -119,6 +119,18 @@
     <Content Include="Images\Get_App.png" />
     <Content Include="Images\IntuitSignIn-lg-white%402x.jpg" />
     <Content Include="Images\linecross.png" />
+    <Content Include="Images\QBO\C2QB_green_btn_med_default.png" />
+    <Content Include="Images\QBO\C2QB_green_btn_med_hover.png" />
+    <Content Include="Images\QBO\C2QB_green_btn_short_default.png" />
+    <Content Include="Images\QBO\C2QB_green_btn_short_hover.png" />
+    <Content Include="Images\QBO\C2QB_green_btn_tall_default.png" />
+    <Content Include="Images\QBO\C2QB_green_btn_tall_hover.png" />
+    <Content Include="Images\QBO\C2QB_transparent_btn_med_default.png" />
+    <Content Include="Images\QBO\C2QB_transparent_btn_med_hover.png" />
+    <Content Include="Images\QBO\C2QB_transparent_btn_short_default.png" />
+    <Content Include="Images\QBO\C2QB_transparent_btn_short_hover.png" />
+    <Content Include="Images\QBO\C2QB_transparent_btn_tall_default.png" />
+    <Content Include="Images\QBO\C2QB_transparent_btn_tall_hover.png" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -163,6 +175,7 @@
       <DependentUpon>Test.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

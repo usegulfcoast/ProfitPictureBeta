@@ -33,7 +33,7 @@
                         <b>To use this dashboard, you must first sign into QuickBooks</b><br />
                         <asp:ImageButton id="btnOAuth" runat="server" AlternateText="Connect to Quickbooks"
                                ImageAlign="left"
-                               ImageUrl="Images/C2QB_white_btn_lg_default.png"
+                               ImageUrl="Images/QBO/C2QB_green_btn_med_hover.png"
                                OnClick="ImgC2QB_Click" Height="40px" Width="200px"/>
                          <br />
                         <br />
@@ -54,11 +54,15 @@
                     </div>
       
                     <div>
-                        <asp:GridView runat="server" ID="dtdata" Visible="false">
+                        <asp:GridView runat="server" ID="dtdata">
                         </asp:GridView>
                     </div>
 
                     <div id="connected" runat="server">
+
+                         <div class="form-group right ">
+                            <asp:Button id="btnlogout" runat="server" Text="Disconnect from QuickBooks" OnClick="btnlogout_Click" CssClass="btn btn-danger btn-sm"/>
+                        </div>
 
                         <div class="form-group form-inline">
                             <label for="dtstart" style="width: 150px">Start Date</label>
@@ -86,7 +90,6 @@
                             <asp:Button id="btnloaddashboard" runat="server" Text="Load Dashboard!" OnClick="btnloaddashboard_Click" CssClass="btn btn-primary"/>
                         </div>
                         
-
                 
                     </div>
 
@@ -310,7 +313,7 @@
                         <hr />
 
               
-                        <div style="display: none">
+                        <div>
                             <div>
                                 <h4>List of Items pulled (development only)</h4>
                                 <asp:DataList runat="server" ID="dlitems" RepeatLayout="Table">
@@ -331,7 +334,7 @@
                                     </ItemTemplate>
                                 </asp:DataList>
                                 <h4>Log</h4>
-                                <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="txtlog" Visible="false"></asp:TextBox>
+                                <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="txtlog" Visible="true"></asp:TextBox>
                             </div>
                             <div>
                                 <h4>List of Previous Period Items pulled (development only)</h4>
@@ -353,7 +356,7 @@
                                     </ItemTemplate>
                                 </asp:DataList>
                                 <h4>Log</h4>
-                                <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="TextBox1" Visible="false"></asp:TextBox>
+                                <asp:TextBox TextMode="MultiLine" Rows="40" Columns="250" runat="server" ID="TextBox1" Visible="true"></asp:TextBox>
                             </div>
                         </div>
                     </div> <!-- end of metrics -->

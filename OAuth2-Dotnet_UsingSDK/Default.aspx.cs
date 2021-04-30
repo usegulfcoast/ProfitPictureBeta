@@ -73,11 +73,14 @@ namespace ProfitProgress.web
 
             if (Environment.MachineName.ToLower().Contains("cody"))
                 redirectURI = "http://localhost:59785/Default.aspx";
-
+            this.txtlog.Text = "";
 
             if (Request.QueryString["signoff"] == "Y")
+            {
                 dictionary.Clear();
-
+                try { await oauthClient.RevokeTokenAsync("refreshToken"); } catch { }
+            }
+            
             if (!dictionary.ContainsKey("accessToken"))
             {
                 if (Request.QueryString.Count > 0)
@@ -98,7 +101,7 @@ namespace ProfitProgress.web
                             if (response.Code != null)
                             {
                                 authCode = response.Code;
-                                Output("Authorization code obtained.");
+                                Output("Authorization code obtained.", false);
                                 PageAsyncTask t = new PageAsyncTask(PerformCodeExchange);
                                 Page.RegisterAsyncTask(t);
                                 Page.ExecuteRegisteredAsyncTasks();
@@ -108,7 +111,7 @@ namespace ProfitProgress.web
                         }
                         else
                         {
-                            Output("Invalid State");
+                            Output("Invalid State", false);
                             dictionary.Clear();
                         }
                     }
@@ -125,14 +128,15 @@ namespace ProfitProgress.web
             }
         }
 
-        private void Output(string s)
+        private void Output(string s, bool isError)
         {
-
+            s += "\r\n";
+            this.txtlog.Text += s;
         }
 
         protected void ImgC2QB_Click(object sender, ImageClickEventArgs e)
         {
-            Output("Intiating OAuth2 call.");
+            Output("Intiating OAuth2 call.", false);
             try
             {
                 if (!dictionary.ContainsKey("accessToken"))
@@ -145,7 +149,7 @@ namespace ProfitProgress.web
             }
             catch (Exception ex)
             {
-                Output(ex.Message);
+                Output(ex.Message, true);
             }
         }
 
@@ -154,7 +158,7 @@ namespace ProfitProgress.web
         /// </summary>
         public async System.Threading.Tasks.Task PerformCodeExchange()
         {
-            Output("Exchanging code for tokens.");
+            Output("Exchanging code for tokens.", false);
             try
             {
                 var tokenResp = await oauthClient.GetBearerTokenAsync(authCode);
@@ -181,24 +185,27 @@ namespace ProfitProgress.web
             }
             catch (Exception ex)
             {
-                Output("Problem while getting bearer tokens.");
+                Output("Problem while getting bearer tokens.", true);
             }
         }
 
         /// <summary>
         /// Test QBO api call
         /// </summary>
+        /// 
+        /*
         public async System.Threading.Tasks.Task QboApiCall()
         {
             try
             {
                 if ((dictionary.ContainsKey("accessToken")) && (dictionary.ContainsKey("realmId")))
                 {
-                    Output("Making QBO API Call.");
+                    Output("Making QBO API Call.", false);
                     OAuth2RequestValidator oauthValidator = new OAuth2RequestValidator(dictionary["accessToken"]);
                     ServiceContext serviceContext = new ServiceContext(dictionary["realmId"], IntuitServicesType.QBO, oauthValidator);
-                    serviceContext.IppConfiguration.BaseUrl.Qbo = "https://sandbox-quickbooks.api.intuit.com/";
+                    //serviceContext.IppConfiguration.BaseUrl.Qbo = "https://sandbox-quickbooks.api.intuit.com/";
                     //serviceContext.IppConfiguration.BaseUrl.Qbo = "https://quickbooks.api.intuit.com/";//prod
+                    serviceContext.IppConfiguration.BaseUrl.Qbo = ConfigurationManager.AppSettings["baseURL"];
                     serviceContext.IppConfiguration.MinorVersion.Qbo = "29";
                     ReportService reportService = new ReportService(serviceContext);
 
@@ -261,9 +268,9 @@ namespace ProfitProgress.web
                     //Adding the Invoice
                     Invoice added = Helper.Add<Invoice>(serviceContext, invoice);
 
-                    */
+                    
 
-                    Output("QBO call successful.");
+                    Output("QBO call successful.", false);
                     //lblQBOCall.Visible = true;
                     //lblQBOCall.Text = "QBO Call successful";
                 }
@@ -273,7 +280,7 @@ namespace ProfitProgress.web
             {
                 if (ex.Message == "Unauthorized-401")
                 {
-                    Output("Invalid/Expired Access Token.");
+                    Output("Invalid/Expired Access Token.", false);
 
                     var tokenResp = await oauthClient.RefreshTokenAsync(dictionary["refreshToken"]);
                     if (tokenResp.AccessToken != null && tokenResp.RefreshToken != null)
@@ -284,29 +291,31 @@ namespace ProfitProgress.web
                     }
                     else
                     {
-                        Output("Error while refreshing tokens: " + tokenResp.Raw);
+                        Output("Error while refreshing tokens: " + tokenResp.Raw, true);
                     }
                 }
                 else
                 {
-                    Output(ex.Message);
+                    Output(ex.Message, true);
                 }
             }
             catch (Exception ex)
             {
-                Output("Invalid/Expired Access Token.");
+                Output("Invalid/Expired Access Token.", true);
             }
         }
-
+        */
         protected async void btnloaddashboard_Click(object sender, EventArgs e)
         {
             if (dictionary.ContainsKey("accessToken") && dictionary.ContainsKey("realmId"))
             {
+                _prevperioditems.Clear();
+                _items.Clear();
                 await CallAll();
             }
             else
             {
-                Output("Access token not found.");
+                Output("Inside Load Dashboard Click Access token not found.", false);
             }
         }
 
@@ -316,15 +325,16 @@ namespace ProfitProgress.web
             {
                 if ((dictionary.ContainsKey("accessToken")) && (dictionary.ContainsKey("realmId")))
                 {
-                    Output("Making QBO API Call.");
+                    Output("Making QBO API Call.", false);
                     OAuth2RequestValidator oauthValidator = new OAuth2RequestValidator(dictionary["accessToken"]);
                     ServiceContext serviceContext = new ServiceContext(dictionary["realmId"], IntuitServicesType.QBO, oauthValidator);
-                    serviceContext.IppConfiguration.BaseUrl.Qbo = "https://sandbox-quickbooks.api.intuit.com/";
+                    //serviceContext.IppConfiguration.BaseUrl.Qbo = "https://sandbox-quickbooks.api.intuit.com/";
                     //serviceContext.IppConfiguration.BaseUrl.Qbo = "https://quickbooks.api.intuit.com/";//prod
+                    serviceContext.IppConfiguration.BaseUrl.Qbo = ConfigurationManager.AppSettings["baseURL"];
                     serviceContext.IppConfiguration.MinorVersion.Qbo = "29";
                     ReportService reportService = new ReportService(serviceContext);
-
-                    loadItems(dtstart.Text, dtend.Text, cbcashoraccrual.SelectedValue, ref reportService, ref serviceContext, true);
+                    Output("Base URL is " + serviceContext.IppConfiguration.BaseUrl.Qbo, false);
+                    loadItems(Convert.ToDateTime(dtstart.Text).ToString("yyyy-MM-dd"), Convert.ToDateTime(dtend.Text).ToString("yyyy-MM-dd"), cbcashoraccrual.SelectedValue, ref reportService, ref serviceContext, true);
 
                     DateTime prevstartdt = Convert.ToDateTime(dtstart.Text);
                     DateTime prevenddt = Convert.ToDateTime(dtend.Text);
@@ -350,7 +360,7 @@ namespace ProfitProgress.web
                     this.dlitems.DataSource = _items;
                     this.dlitems.DataBind();
 
-                    this.dlitemsprev.DataSource = _items;
+                    this.dlitemsprev.DataSource = _prevperioditems;
                     this.dlitemsprev.DataBind();
 
                     LoadPredictableRevenue();
@@ -371,107 +381,147 @@ namespace ProfitProgress.web
             }
             catch (IdsException ex)
             {
+                Output("Exception in CallAll" + ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""), true);
                 if (ex.Message == "Unauthorized-401")
                 {
-                    Output("Invalid/Expired Access Token.");
+                    Output("Invalid/Expired Access Token.", false);
 
                     var tokenResp = await oauthClient.RefreshTokenAsync(dictionary["refreshToken"]);
                     if (tokenResp.AccessToken != null && tokenResp.RefreshToken != null)
                     {
                         dictionary["accessToken"] = tokenResp.AccessToken;
                         dictionary["refreshToken"] = tokenResp.RefreshToken;
-                        await QboApiCall();
+                        await CallAll();
                     }
                     else
                     {
-                        Output("Error while refreshing tokens: " + tokenResp.Raw);
+                        Output("Error while refreshing tokens: " + tokenResp.Raw, false);
                     }
                 }
                 else
                 {
-                    Output(ex.Message);
+                    Output(ex.Message, true);
                 }
             }
             catch (Exception ex)
             {
-                Output("Invalid/Expired Access Token.");
+                Output("Exception in CallAll" + ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""), true);
             }
         }
 
 
         private void loadItems(string startdt, string enddt, string accttype, ref ReportService reportService, ref ServiceContext serviceContext, bool isCurrentItem = true)
         {
+            Output("+++++++++++++++++++++++++ Inside loadItems +++++++++++++++++++++++++", false);
             reportService.accounting_method = accttype;
             reportService.start_date = startdt.ToString();
             reportService.end_date = enddt.ToString();
             reportService.summarize_column_by = "Total";
 
+            Output($"Using {startdt} to {enddt}", false);
+
             var rptItemSales = reportService.ExecuteReport("ItemSales");
+            if (rptItemSales != null)
+            {
+                Output($"Found {rptItemSales.Rows.Length} Item Sales Rows", false);
+            }
+            else
+                Output("No Item Sales Found", false);
+
+
             foreach (var row in rptItemSales.Rows)
             {
-                var cols = (Intuit.Ipp.Data.ColData[])row.AnyIntuitObjects.FirstOrDefault();
                 try
                 {
-                    if (!String.Equals("Total", cols[0].value, StringComparison.OrdinalIgnoreCase))
+                    var cols = (Intuit.Ipp.Data.ColData[])row.AnyIntuitObjects.FirstOrDefault();
+                    try
                     {
-                        decimal d = Convert.ToDecimal(cols[2].value);
-                        if (isCurrentItem)
-                            _items.Add(new SnapshotListItem() { AcctType = "PRODUCT", Acct = cols[0].value, Value = d });
-                        else
-                            _prevperioditems.Add(new SnapshotListItem() { AcctType = "PRODUCT", Acct = cols[0].value, Value = d });
+                        if (!String.Equals("Total", cols[0].value, StringComparison.OrdinalIgnoreCase))
+                        {
+                            decimal d = Convert.ToDecimal(cols[2].value);
+                            if (isCurrentItem)
+                                _items.Add(new SnapshotListItem() { AcctType = "PRODUCT", Acct = cols[0].value, Value = d });
+                            else
+                                _prevperioditems.Add(new SnapshotListItem() { AcctType = "PRODUCT", Acct = cols[0].value, Value = d });
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        Output("Item Sales: " + exc.Message, true);
+                        throw exc;
                     }
                 }
-                catch (Exception exc)
-                {
-                    throw exc;
-                }
+                catch { }
             }
 
             var rptGeneralLedger = reportService.ExecuteReport("GeneralLedger");
+            if (rptGeneralLedger != null)
+                Output($"Found {rptGeneralLedger.Rows.Length} rptGeneralLedger Rows", false);
+            else
+                Output("No rptGeneralLedger Found", false);
+
             foreach (var row in rptGeneralLedger.Rows)
             {
                 string acct = "";
                 string val = "";
-
-                acct = ((Intuit.Ipp.Data.Header)row.AnyIntuitObjects[0]).ColData[0].value;
-                val = ((Intuit.Ipp.Data.Summary)row.AnyIntuitObjects[2]).ColData[6].value;
-                if (String.IsNullOrEmpty(val))
-                    val = "0.00";
                 try
                 {
-                    if (isCurrentItem)
-                        _items.Add(new SnapshotListItem() { AcctType = "LEDGER", Acct = acct, Value = Convert.ToDecimal(val) });
-                    else
-                        _prevperioditems.Add(new SnapshotListItem() { AcctType = "LEDGER", Acct = acct, Value = Convert.ToDecimal(val) });
-                }
-                catch (Exception exc)
-                {
-                    throw exc;
+                    acct = ((Intuit.Ipp.Data.Header)row.AnyIntuitObjects[0]).ColData[0].value;
+                    val = ((Intuit.Ipp.Data.Summary)row.AnyIntuitObjects[2]).ColData[6].value;
+                    if (String.IsNullOrEmpty(val))
+                        val = "0.00";
+                    try
+                    {
+                        if (isCurrentItem)
+                            _items.Add(new SnapshotListItem() { AcctType = "LEDGER", Acct = acct, Value = Convert.ToDecimal(val) });
+                        else
+                            _prevperioditems.Add(new SnapshotListItem() { AcctType = "LEDGER", Acct = acct, Value = Convert.ToDecimal(val) });
+                    }
+                    catch (Exception exc)
+                    {
+                        Output("General Ledger: " + exc.Message, true);
+                        throw exc;
+                    }
+                } catch (Exception exrow) {
+                    Output($"Weird Ledger Row found {Newtonsoft.Json.JsonConvert.SerializeObject(row)}", false);
                 }
             }
 
 
             QueryService<Purchase> inBalance = new QueryService<Purchase>(serviceContext);
-            var bsheet = inBalance.ExecuteIdsQuery($"SELECT * FROM Purchase WHERE TxnDate >= '{startdt}' and TxnDate <= '{enddt}' Order by TxnDate DESC", QueryOperationType.query);
+            string bsheetqry = $"SELECT * FROM Purchase WHERE TxnDate >= '{startdt}' and TxnDate <= '{enddt}' Order by TxnDate DESC MAXRESULTS 1000";
+            Output($"BSheet Query {bsheetqry}", false);
+            var bsheet = inBalance.ExecuteIdsQuery(bsheetqry, QueryOperationType.query);
+
+            if (bsheet != null)
+                Output($"Found {bsheet.Count} bsheet Rows", false);
+            else
+                Output("No bsheet Found", false);
 
             foreach (var b in bsheet)
             {
                 foreach (var l in b.Line)
                 {
-                    string acct = string.Empty;
-                    if (l.AnyIntuitObject is Intuit.Ipp.Data.ItemBasedExpenseLineDetail)
-                        acct = ((Intuit.Ipp.Data.ItemBasedExpenseLineDetail)l.AnyIntuitObject).ItemRef.name;
-                    else if (l.AnyIntuitObject is Intuit.Ipp.Data.AccountBasedExpenseLineDetail)
-                        acct = ((Intuit.Ipp.Data.AccountBasedExpenseLineDetail)l.AnyIntuitObject).AccountRef.name;
-                    else
-                        acct = "??" + l.AnyIntuitObject.ToString() + "??";
-                    var val = l.Amount;
+                    try
+                    {
+                        string acct = string.Empty;
+                        if (l.AnyIntuitObject is Intuit.Ipp.Data.ItemBasedExpenseLineDetail)
+                            acct = ((Intuit.Ipp.Data.ItemBasedExpenseLineDetail)l.AnyIntuitObject).ItemRef.name;
+                        else if (l.AnyIntuitObject is Intuit.Ipp.Data.AccountBasedExpenseLineDetail)
+                            acct = ((Intuit.Ipp.Data.AccountBasedExpenseLineDetail)l.AnyIntuitObject).AccountRef.name;
+                        else
+                            acct = "??" + l.AnyIntuitObject.ToString() + "??";
+                        var val = l.Amount;
 
-                    if (isCurrentItem)
-                        _items.Add(new SnapshotListItem() { AcctType = "EXPENSE", Acct = acct, Value = Convert.ToDecimal(val) });
-                    else
-                        _prevperioditems.Add(new SnapshotListItem() { AcctType = "EXPENSE", Acct = acct, Value = Convert.ToDecimal(val) });
-
+                        if (isCurrentItem)
+                            _items.Add(new SnapshotListItem() { AcctType = "EXPENSE", Acct = acct, Value = Convert.ToDecimal(val) });
+                        else
+                            _prevperioditems.Add(new SnapshotListItem() { AcctType = "EXPENSE", Acct = acct, Value = Convert.ToDecimal(val) });
+                    }
+                    catch (Exception exrow)
+                    {
+                        Output($"Weird Purchase Row found {Newtonsoft.Json.JsonConvert.SerializeObject(l)}", false);
+                    }
                 }
             }
 
@@ -688,6 +738,18 @@ namespace ProfitProgress.web
         }
 
         #endregion
+
+        protected async void btnlogout_Click(object sender, EventArgs e)
+        {
+            dictionary = new Dictionary<string, string>();
+            await oauthClient.RevokeTokenAsync("refreshToken");
+            mainButtons.Visible = true;
+            connected.Visible = false;
+
+        }
+
+
+
     }
 
     public static class ResponseHelper
